@@ -198,6 +198,7 @@ const projectsData = {
   ned: {
     title: "NED System & NED Leal",
     subtitle: "Red Social Tipo Marketplace & Ecosistema de Fidelización",
+    image: "assets/proyectos/ned.png",
     category: "Móvil (Android & iOS) · Web Full Stack · Desarrollado por Mario & NED System",
     description: "Plataforma integral de lealtad y marketplace comercial desarrollada y operada por Mario Martínez y el equipo de NED System. Conecta a miles de consumidores con comercios aliados permitiendo acumular puntos, canjear recompensas, acceder a descuentos y participar en sorteos automáticos.",
     architecture: [
@@ -217,6 +218,7 @@ const projectsData = {
   admiris: {
     title: "ADMIRIS S.A.S.",
     subtitle: "Plataforma Institucional & Soluciones en Gestión de Riesgos",
+    image: "assets/proyectos/admiris.png",
     category: "Desarrollo Web Full Stack · Diseño UI/UX · Desarrollado por Mario & NED System",
     description: "Portal digital corporativo desarrollado por Mario Martínez y el equipo de NED System para la firma de consultoría en sistemas de protección contra incendios (bajo normas NFPA y FM Global), auditorías técnicas y gestión integral de riesgos industriales.",
     architecture: [
@@ -233,6 +235,7 @@ const projectsData = {
   admirisk: {
     title: "WebAdmirisk",
     subtitle: "Software Empresarial de Gestión de Riesgos (ISO 31000)",
+    image: "assets/proyectos/admirisk.png",
     category: "Software Empresarial / Cloud · Dashboards · Desarrollado por Mario & NED System",
     description: "Software corporativo desarrollado a medida por Mario Martínez y el equipo de NED System para la valoración técnica de riesgos industriales (Risk Assessment), cálculo de estudios PML/EML y auditorías en tiempo real con parametrización total.",
     architecture: [
@@ -249,6 +252,7 @@ const projectsData = {
   perlad: {
     title: "PERLAD",
     subtitle: "Aplicación Web Moderna — Innovación Sostenible en Cartón Panal",
+    image: "assets/proyectos/perlad.png",
     category: "Desarrollo Web Next.js · UI/UX · Desarrollado por Mario & NED System",
     description: "Aplicación web de alto rendimiento desarrollada en Next.js por Mario Martínez y el equipo de NED System para la presentación interactiva y cotización de empaques ecológicos y estructuras sustentables de cartón panal.",
     architecture: [
@@ -274,6 +278,15 @@ function initProjectModals() {
   function openModal(projectId) {
     const data = projectsData[projectId];
     if (!data) return;
+
+    const modalImg = document.getElementById('modalImg');
+    if (modalImg && data.image) {
+      modalImg.src = data.image;
+      modalImg.alt = data.title;
+      if (modalImg.parentElement) modalImg.parentElement.style.display = 'block';
+    } else if (modalImg && modalImg.parentElement) {
+      modalImg.parentElement.style.display = 'none';
+    }
 
     document.getElementById('modalTitle').textContent = data.title;
     document.getElementById('modalSubtitle').textContent = data.subtitle;
