@@ -914,9 +914,7 @@ button {
 
 /* --- Full Stack Pillars Section --- */
 .pillars-section {
-  background: #ffffff;
-  border-top: 1px solid var(--border-light);
-  border-bottom: 1px solid var(--border-light);
+  position: relative;
 }
 
 .pillars-grid {
@@ -926,10 +924,11 @@ button {
 }
 
 .pillar-card {
-  background: var(--bg-main);
+  background: #ffffff;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
   padding: 32px 24px;
+  box-shadow: var(--shadow-sm);
   transition: var(--transition-normal);
   position: relative;
   overflow: hidden;
@@ -1518,9 +1517,7 @@ button {
 
 /* --- Tech Stack & Capabilities Matrix --- */
 .stack-section {
-  background: #ffffff;
-  border-top: 1px solid var(--border-light);
-  border-bottom: 1px solid var(--border-light);
+  position: relative;
 }
 
 .stack-categories-grid {
@@ -1530,18 +1527,18 @@ button {
 }
 
 .stack-category-card {
-  background: var(--bg-main);
+  background: #ffffff;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
-  padding: 28px;
+  padding: 32px 28px;
+  box-shadow: var(--shadow-sm);
   transition: var(--transition-normal);
 }
 
 .stack-category-card:hover {
-  background: #ffffff;
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-strong);
+  box-shadow: var(--shadow-xl);
+  border-color: rgba(79, 70, 229, 0.3);
 }
 
 .stack-cat-header {
