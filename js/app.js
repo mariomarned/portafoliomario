@@ -1,7 +1,7 @@
 /**
- * PORTAFOLIO MARIO MARTÍNEZ — FULL STACK SOFTWARE ENGINEER
+ * PORTAFOLIO MARIO MARTÍNEZ & NED SYSTEM — DESARROLLO DE SOFTWARE FULL STACK
  * Lógica e interactividad: Partículas ambientales, Filtro de proyectos,
- * Modales de detalles, Cotizador interactivo y Enlaces dinámicos a WhatsApp y Tiendas.
+ * Modales de detalles, y Enlaces dinámicos a WhatsApp, Correo y Tiendas oficiales.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -40,24 +40,23 @@ function initAmbientCanvas() {
     constructor() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.4;
-      this.vy = (Math.random() - 0.5) * 0.4;
-      this.radius = Math.random() * 2 + 1;
-      this.color = Math.random() > 0.5 ? 'rgba(99, 102, 241, 0.25)' : 'rgba(14, 165, 233, 0.25)';
+      this.vx = (Math.random() - 0.5) * 0.45;
+      this.vy = (Math.random() - 0.5) * 0.45;
+      this.radius = Math.random() * 1.5 + 1;
     }
 
     update() {
       this.x += this.vx;
       this.y += this.vy;
 
-      if (this.x < 0 || this.x > width) this.vx *= -1;
-      if (this.y < 0 || this.y > height) this.vy *= -1;
+      if (this.x < 0 || this.x > width) this.vx = -this.vx;
+      if (this.y < 0 || this.y > height) this.vy = -this.vy;
     }
 
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.color;
+      ctx.fillStyle = 'rgba(79, 70, 229, 0.28)';
       ctx.fill();
     }
   }
@@ -82,8 +81,8 @@ function initAmbientCanvas() {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          const opacity = (1 - dist / maxDistance) * 0.15;
-          ctx.strokeStyle = `rgba(99, 102, 241, ${opacity})`;
+          const opacity = (1 - dist / maxDistance) * 0.12;
+          ctx.strokeStyle = `rgba(79, 70, 229, ${opacity})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -97,7 +96,7 @@ function initAmbientCanvas() {
 }
 
 /* ==========================================================================
-   2. Navbar Scroll Effect
+   2. Barra de Navegación Dinámica en Scroll
    ========================================================================== */
 function initNavbarScroll() {
   const header = document.querySelector('.header-nav');
@@ -113,27 +112,28 @@ function initNavbarScroll() {
 }
 
 /* ==========================================================================
-   3. Menú Móvil
+   3. Menú Móvil Hamburguesa
    ========================================================================== */
 function initMobileMenu() {
   const toggleBtn = document.querySelector('.mobile-toggle');
   const navMenu = document.querySelector('.nav-menu');
+  const navLinks = document.querySelectorAll('.nav-link');
 
   if (!toggleBtn || !navMenu) return;
 
   toggleBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('mobile-open');
+    navMenu.classList.toggle('open');
   });
 
-  document.querySelectorAll('.nav-link').forEach(link => {
+  navLinks.forEach(link => {
     link.addEventListener('click', () => {
-      navMenu.classList.remove('mobile-open');
+      navMenu.classList.remove('open');
     });
   });
 }
 
 /* ==========================================================================
-   4. Scroll Reveal con IntersectionObserver
+   4. Scroll Reveal Animations (Intersection Observer)
    ========================================================================== */
 function initScrollReveal() {
   const reveals = document.querySelectorAll('.reveal');
@@ -143,7 +143,8 @@ function initScrollReveal() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        // Si tiene barras de habilidad, animarlas
+        
+        // Disparar animación de barras de habilidad
         const skillBars = entry.target.querySelectorAll('.skill-bar-fill');
         skillBars.forEach(bar => {
           const targetWidth = bar.getAttribute('data-width') || '85%';
@@ -197,10 +198,10 @@ const projectsData = {
   ned: {
     title: "NED System & NED Leal",
     subtitle: "Red Social Tipo Marketplace & Ecosistema de Fidelización",
-    category: "Móvil (Android & iOS) · Web Full Stack · Backend Transaccional",
-    description: "Plataforma integral de lealtad y marketplace comercial que conecta a miles de consumidores y negocios. Permite acumular puntos, canjear recompensas, acceder a descuentos exclusivos, participar en sorteos automáticos y realizar compras seguras.",
+    category: "Móvil (Android & iOS) · Web Full Stack · Desarrollado por Mario & NED System",
+    description: "Plataforma integral de lealtad y marketplace comercial desarrollada y operada por Mario Martínez y el equipo de NED System. Conecta a miles de consumidores con comercios aliados permitiendo acumular puntos, canjear recompensas, acceder a descuentos y participar en sorteos automáticos.",
     architecture: [
-      "Aplicación Móvil Híbrida/Nativa publicada en Google Play Store y Apple App Store.",
+      "Desarrollado y publicado por Mario Martínez & equipo NED System en Google Play Store y Apple App Store.",
       "Backend transaccional de alta concurrencia con arquitectura de microservicios y REST APIs.",
       "Base de datos relacional optimizada para auditoría de transacciones de puntos y lealtad.",
       "Sistema de notificaciones push en tiempo real y geolocalización de comercios aliados.",
@@ -215,14 +216,14 @@ const projectsData = {
   },
   admiris: {
     title: "ADMIRIS S.A.S.",
-    subtitle: "Plataforma Institucional & Soluciones en Ingeniería de Riesgos",
-    category: "Desarrollo Web Full Stack · Diseño UI/UX · Optimización SEO",
-    description: "Portal digital de alta presencia corporativa para la consultora líder en sistemas de protección contra incendios (bajo normas NFPA y FM Global), auditorías técnicas y gestión integral de riesgos industriales.",
+    subtitle: "Plataforma Institucional & Soluciones en Gestión de Riesgos",
+    category: "Desarrollo Web Full Stack · Diseño UI/UX · Desarrollado por Mario & NED System",
+    description: "Portal digital corporativo desarrollado por Mario Martínez y el equipo de NED System para la firma de consultoría en sistemas de protección contra incendios (bajo normas NFPA y FM Global), auditorías técnicas y gestión integral de riesgos industriales.",
     architecture: [
-      "Arquitectura Frontend moderna, responsiva y orientada a la conversión de leads corporativos.",
-      "Diseño UI/UX sobrio y corporativo que transmite autoridad y solidez técnica.",
+      "Arquitectura Frontend moderna, responsiva y orientada a la conversión corporativa.",
+      "Diseño UI/UX sobrio y corporativo que transmite solidez y autoridad técnica.",
       "Optimización avanzada de Core Web Vitals, velocidad de carga (LCP/CLS) y SEO semántico.",
-      "Integración de canales de atención y acceso unificado a la suite de software ADMI-RISK."
+      "Integración de canales de atención y acceso unificado al software ADMI-RISK."
     ],
     stack: ["HTML5 Semántico", "CSS3 Moderno", "JavaScript ES6+", "Arquitectura Modular", "SEO Optimization"],
     links: {
@@ -232,8 +233,8 @@ const projectsData = {
   admirisk: {
     title: "WebAdmirisk",
     subtitle: "Software Empresarial de Gestión de Riesgos (ISO 31000)",
-    category: "Software de Escritorio / Cloud · Dashboards Analíticos · Gestión de Riesgo",
-    description: "Software corporativo especializado para la valoración técnica de riesgos industriales (Risk Assessment), cálculo de estudios PML/EML, comisionamiento y auditorías en tiempo real con parametrización total.",
+    category: "Software Empresarial / Cloud · Dashboards · Desarrollado por Mario & NED System",
+    description: "Software corporativo desarrollado a medida por Mario Martínez y el equipo de NED System para la valoración técnica de riesgos industriales (Risk Assessment), cálculo de estudios PML/EML y auditorías en tiempo real con parametrización total.",
     architecture: [
       "Entorno web/escritorio seguro con control de acceso basado en roles (RBAC) y cifrado de datos.",
       "Motor analítico para generación de matrices de riesgo dinámicas según estándares internacionales.",
@@ -248,11 +249,11 @@ const projectsData = {
   perlad: {
     title: "PERLAD",
     subtitle: "Aplicación Web Moderna — Innovación Sostenible en Cartón Panal",
-    category: "Desarrollo Web Next.js · UI/UX de Vanguardia · Catálogo Digital",
-    description: "Aplicación web de alto rendimiento desarrollada con arquitectura moderna para la presentación y cotización de estructuras sustentables de cartón panal y soluciones de empaque ecológico.",
+    category: "Desarrollo Web Next.js · UI/UX · Desarrollado por Mario & NED System",
+    description: "Aplicación web de alto rendimiento desarrollada en Next.js por Mario Martínez y el equipo de NED System para la presentación interactiva y cotización de empaques ecológicos y estructuras sustentables de cartón panal.",
     architecture: [
       "Construido sobre Next.js con Server-Side Rendering (SSR) y optimización de imágenes Next Image.",
-      "Diseño UI/UX con estética hexagonal/panal representativa de la marca y micro-animaciones fluidas.",
+      "Diseño UI/UX con estética hexagonal representativa de la marca y micro-animaciones fluidas.",
       "Módulo interactivo de exploración de productos (Packingboard, Graphicboard, Papel Panal).",
       "Cotizador dinámico de especificaciones técnicas para clientes industriales."
     ],
@@ -492,7 +493,7 @@ function initContactForm() {
     submitBtn.disabled = true;
     submitBtn.innerHTML = `
       <svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
-      <span>Enviando mensaje a Mario...</span>
+      <span>Enviando mensaje a Mario &amp; NED System...</span>
     `;
 
     try {
@@ -508,7 +509,7 @@ function initContactForm() {
       if (response.ok) {
         submitBtn.innerHTML = `
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <span>¡Mensaje Enviado con Éxito a Mario!</span>
+          <span>¡Mensaje Enviado con Éxito!</span>
         `;
         submitBtn.classList.remove('btn-primary');
         submitBtn.classList.add('btn-emerald');
@@ -518,7 +519,7 @@ function initContactForm() {
           statusMsg.style.background = '#ecfdf5';
           statusMsg.style.color = '#059669';
           statusMsg.style.border = '1px solid rgba(5, 150, 105, 0.2)';
-          statusMsg.textContent = '¡Gracias por contactarme! He recibido tu mensaje en mi correo y te responderé en breve.';
+          statusMsg.textContent = '¡Gracias por contactarnos! Mario y el equipo de NED System hemos recibido tu mensaje y te responderemos en breve.';
         }
 
         setTimeout(() => {
@@ -540,7 +541,7 @@ function initContactForm() {
       const projectType = document.getElementById('formProjectType').value;
       const message = document.getElementById('formMessage').value;
 
-      const waText = `Hola Mario! 👋 Mi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nProyecto de tipo *${projectType}*:\n\n"${message}"`;
+      const waText = `Hola Mario y equipo NED System! 👋 Mi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nMe gustaría cotizar un desarrollo de tipo *${projectType}*:\n\n"${message}"`;
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
 
       submitBtn.innerHTML = `
@@ -561,9 +562,9 @@ function initContactForm() {
       const email = document.getElementById('formEmail').value || 'No especificado';
       const phoneInput = document.getElementById('formPhone') ? document.getElementById('formPhone').value : '';
       const projectType = document.getElementById('formProjectType').value;
-      const message = document.getElementById('formMessage').value || 'Hola Mario, me gustaría consultar contigo sobre el desarrollo de un proyecto.';
+      const message = document.getElementById('formMessage').value || 'Hola Mario y equipo NED System, me gustaría consultar sobre el desarrollo de un proyecto.';
 
-      const waText = `Hola Mario! 👋 Mi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nMe interesa cotizar un proyecto de tipo *${projectType}*:\n\n"${message}"`;
+      const waText = `Hola Mario y equipo NED System! 👋 Mi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nMe interesa cotizar un proyecto de tipo *${projectType}*:\n\n"${message}"`;
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
     });
   }

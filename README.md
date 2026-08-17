@@ -1,7 +1,7 @@
-# Portafolio Profesional — Mario Martínez
+# Portafolio — Mario Martínez & NED System
 
-> **Senior Full Stack Software Engineer & Solution Architect**  
-> Especialista en Diseño UI/UX, Frontend de alto rendimiento, Backend escalable, Aplicaciones Móviles (Android & iOS) y Software Empresarial.
+> **Desarrollo de Software Full Stack por Mario Martínez y el equipo de NED System**  
+> Especialistas en Diseño UI/UX, Frontend de alto rendimiento, Backend escalable, Aplicaciones Móviles (Android & iOS) y Software Empresarial.
 
 ---
 
