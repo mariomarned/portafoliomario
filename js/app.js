@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initProjectFilters();
   initProjectModals();
-  initEstimatorCalculator();
   initContactForm();
   initCurrentYear();
 });
