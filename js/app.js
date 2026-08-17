@@ -198,7 +198,7 @@ const projectsData = {
   ned: {
     title: "NED System & NED Leal",
     subtitle: "Red Social Tipo Marketplace & Ecosistema de Fidelización",
-    image: "assets/proyectos/ned.png",
+    image: "assets/proyectos/appned.png",
     category: "Móvil (Android & iOS) · Web Full Stack · Desarrollado por Mario & NED System",
     description: "Plataforma integral de lealtad y marketplace comercial desarrollada y operada por Mario Martínez y el equipo de NED System. Conecta a miles de consumidores con comercios aliados permitiendo acumular puntos, canjear recompensas, acceder a descuentos y participar en sorteos automáticos.",
     architecture: [
