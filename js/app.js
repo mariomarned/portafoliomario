@@ -487,7 +487,7 @@ function initEstimatorCalculator() {
     scopeDisplay.textContent = selectedPlatform;
 
     // Generar enlace personalizado de WhatsApp
-    const phone = "573024647165"; // Número de contacto directo profesional
+    const phone = "573011631422";
     const featuresText = selectedFeatures.length > 0 ? `\n• Funcionalidades clave: ${selectedFeatures.join(', ')}` : '';
     const message = `Hola Mario! 👋 Estuve revisando tu portafolio y coticé un proyecto con el siguiente alcance:\n\n• Tipo: ${selectedPlatform}${featuresText}\n• Estimado estimado: $${basePriceMin.toLocaleString()} - $${basePriceMax.toLocaleString()} USD (${baseWeeksMin}-${baseWeeksMax} semanas).\n\n¿Podemos conversar para revisar los detalles técnicos y fecha de inicio?`;
 
