@@ -16,83 +16,248 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   1. Canvas Ambiental con Malla de Puntos & Conexiones Sutiles
+   1. Canvas Ambiental: Red Dinámica de Código, Nodos de Software & Paquetes de Datos
    ========================================================================== */
 function initAmbientCanvas() {
   const canvas = document.getElementById('ambientCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  
+
   let width, height;
-  let particles = [];
-  const particleCount = 45;
-  const maxDistance = 140;
+  let codeNodes = [];
+  let dataPackets = [];
+  let binaryDrops = [];
+
+  const codeTokens = [
+    '</>', '{ }', '=>', 'async', 'git push', 'API', 'const', '0101',
+    '[ ]', 'React', 'Node.js', '===', 'fn()', 'SQL', 'import', 'REST',
+    'JSON', 'TypeScript', 'Promise', 'POST', 'GET', 'Docker', 'JWT', 'UI/UX'
+  ];
+
+  const colors = [
+    'rgba(79, 70, 229, ',   // Indigo
+    'rgba(2, 132, 199, ',   // Sky Blue
+    'rgba(16, 185, 129, ',  // Emerald Green
+    'rgba(196, 34, 125, ',  // Magenta
+    'rgba(139, 92, 246, '   // Purple
+  ];
+
+  const isMobile = window.innerWidth <= 768;
+  const nodeCount = isMobile ? 16 : 30;
+  const binaryColumnCount = isMobile ? 12 : 24;
+  const maxDistance = isMobile ? 120 : 155;
+
+  // Seguimiento interactivo del cursor
+  const mouse = { x: -1000, y: -1000, radius: 180 };
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+  });
 
   function resize() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
   }
-
   window.addEventListener('resize', resize);
   resize();
 
-  class Particle {
+  // 1. Nodo de Símbolo y Código de Programación
+  class CodeNode {
     constructor() {
+      this.reset(true);
+    }
+
+    reset(initial = false) {
       this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.45;
-      this.vy = (Math.random() - 0.5) * 0.45;
-      this.radius = Math.random() * 1.5 + 1;
+      this.y = initial ? Math.random() * height : height + 20;
+      this.vx = (Math.random() - 0.5) * 0.32;
+      this.vy = -(Math.random() * 0.3 + 0.12); // Flotación suave hacia arriba
+      this.text = codeTokens[Math.floor(Math.random() * codeTokens.length)];
+      this.baseColor = colors[Math.floor(Math.random() * colors.length)];
+      this.size = Math.random() * 3 + 11.5; // Tamaño legible y elegante
+      this.baseAlpha = Math.random() * 0.12 + 0.08;
+      this.alpha = this.baseAlpha;
+      this.pulseSpeed = Math.random() * 0.02 + 0.01;
+      this.pulseAngle = Math.random() * Math.PI * 2;
     }
 
     update() {
       this.x += this.vx;
       this.y += this.vy;
+      this.pulseAngle += this.pulseSpeed;
 
-      if (this.x < 0 || this.x > width) this.vx = -this.vx;
-      if (this.y < 0 || this.y > height) this.vy = -this.vy;
+      // Interacción magnética suave con el cursor
+      const dx = this.x - mouse.x;
+      const dy = this.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < mouse.radius) {
+        const force = (1 - dist / mouse.radius) * 1.4;
+        this.x += (dx / (dist || 1)) * force;
+        this.y += (dy / (dist || 1)) * force;
+        this.alpha = Math.min(0.4, this.baseAlpha + (1 - dist / mouse.radius) * 0.28);
+      } else {
+        this.alpha = this.baseAlpha + Math.sin(this.pulseAngle) * 0.03;
+      }
+
+      // Reutilización al salir de pantalla
+      if (this.y < -30) this.reset(false);
+      if (this.x < -40) this.x = width + 30;
+      if (this.x > width + 40) this.x = -30;
     }
 
     draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(79, 70, 229, 0.28)';
-      ctx.fill();
+      ctx.save();
+      ctx.font = `600 ${this.size}px "JetBrains Mono", Consolas, "Fira Code", monospace, sans-serif`;
+      ctx.fillStyle = `${this.baseColor}${this.alpha})`;
+      ctx.fillText(this.text, this.x, this.y);
+      ctx.restore();
     }
   }
 
-  for (let i = 0; i < particleCount; i++) {
-    particles.push(new Particle());
+  // 2. Micro-lluvia binaria ambiental en capas profundas
+  class BinaryStream {
+    constructor(x) {
+      this.x = x;
+      this.y = Math.random() * height;
+      this.speed = Math.random() * 0.7 + 0.35;
+      this.chars = ['0', '1', '{', '}', ';', '/', '*', '<', '>'];
+      this.char = this.chars[Math.floor(Math.random() * this.chars.length)];
+      this.opacity = Math.random() * 0.045 + 0.02;
+    }
+
+    update() {
+      this.y += this.speed;
+      if (Math.random() < 0.02) {
+        this.char = this.chars[Math.floor(Math.random() * this.chars.length)];
+      }
+      if (this.y > height + 20) {
+        this.y = -20;
+        this.opacity = Math.random() * 0.045 + 0.02;
+      }
+    }
+
+    draw() {
+      ctx.save();
+      ctx.font = `10px monospace`;
+      ctx.fillStyle = `rgba(79, 70, 229, ${this.opacity})`;
+      ctx.fillText(this.char, this.x, this.y);
+      ctx.restore();
+    }
   }
 
-  function animate() {
+  // 3. Paquetes de datos viajando entre conexiones activas
+  class DataPacket {
+    constructor(nodeA, nodeB) {
+      this.nodeA = nodeA;
+      this.nodeB = nodeB;
+      this.progress = 0;
+      this.speed = Math.random() * 0.018 + 0.01;
+      this.alive = true;
+    }
+
+    update() {
+      this.progress += this.speed;
+      if (this.progress >= 1) {
+        this.alive = false;
+      }
+    }
+
+    draw() {
+      const curX = this.nodeA.x + (this.nodeB.x - this.nodeA.x) * this.progress;
+      const curY = this.nodeA.y + (this.nodeB.y - this.nodeA.y) * this.progress;
+
+      ctx.beginPath();
+      ctx.arc(curX, curY, 2.2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(2, 132, 199, 0.5)';
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = 'rgba(2, 132, 199, 0.7)';
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  // Instanciar elementos
+  for (let i = 0; i < nodeCount; i++) {
+    codeNodes.push(new CodeNode());
+  }
+
+  for (let i = 0; i < binaryColumnCount; i++) {
+    const streamX = (width / binaryColumnCount) * i + Math.random() * 15;
+    binaryDrops.push(new BinaryStream(streamX));
+  }
+
+  let lastPacketSpawn = 0;
+
+  function animate(timestamp) {
     ctx.clearRect(0, 0, width, height);
 
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
+    // 1. Capa ambiental de bits binarios (muy sutil)
+    for (let i = 0; i < binaryDrops.length; i++) {
+      binaryDrops[i].update();
+      binaryDrops[i].draw();
+    }
 
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
+    // 2. Nodos de Código y Circuitos de Enlace
+    for (let i = 0; i < codeNodes.length; i++) {
+      codeNodes[i].update();
+      codeNodes[i].draw();
+
+      for (let j = i + 1; j < codeNodes.length; j++) {
+        const dx = codeNodes[i].x - codeNodes[j].x;
+        const dy = codeNodes[i].y - codeNodes[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < maxDistance) {
+          const lineAlpha = (1 - dist / maxDistance) * 0.08;
           ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          const opacity = (1 - dist / maxDistance) * 0.12;
-          ctx.strokeStyle = `rgba(79, 70, 229, ${opacity})`;
-          ctx.lineWidth = 1;
+          ctx.moveTo(codeNodes[i].x, codeNodes[i].y);
+          ctx.lineTo(codeNodes[j].x, codeNodes[j].y);
+          ctx.strokeStyle = `rgba(79, 70, 229, ${lineAlpha})`;
+          ctx.lineWidth = 0.8;
           ctx.stroke();
+
+          // Generar pulsos de datos entre nodos vinculados
+          if (timestamp - lastPacketSpawn > 350 && dataPackets.length < 9 && Math.random() < 0.07) {
+            dataPackets.push(new DataPacket(codeNodes[i], codeNodes[j]));
+            lastPacketSpawn = timestamp;
+          }
         }
+      }
+
+      // Enlace dinámico con la posición del cursor
+      const mouseDx = codeNodes[i].x - mouse.x;
+      const mouseDy = codeNodes[i].y - mouse.y;
+      const mouseDist = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
+      if (mouseDist < mouse.radius) {
+        const mouseLineAlpha = (1 - mouseDist / mouse.radius) * 0.18;
+        ctx.beginPath();
+        ctx.moveTo(codeNodes[i].x, codeNodes[i].y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.strokeStyle = `rgba(2, 132, 199, ${mouseLineAlpha})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+
+    // 3. Dibujar paquetes de datos luminosos
+    for (let i = dataPackets.length - 1; i >= 0; i--) {
+      dataPackets[i].update();
+      if (dataPackets[i].alive) {
+        dataPackets[i].draw();
+      } else {
+        dataPackets.splice(i, 1);
       }
     }
 
     requestAnimationFrame(animate);
   }
 
-  animate();
+  requestAnimationFrame(animate);
 }
 
 /* ==========================================================================
