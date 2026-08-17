@@ -522,17 +522,23 @@ function initContactForm() {
   const phone = "573011631422";
   const recipientEmail = "mmartinez@ned.mobi";
 
-  // Envío por Correo Electrónico (AJAX directo a FormSubmit / mmartinez@ned.mobi)
+  // Envío de Formulario con Fallback Inteligente y Conexión Directa
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const submitBtn = document.getElementById('btnSubmitForm') || form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
 
+    const name = document.getElementById('formName').value.trim();
+    const email = document.getElementById('formEmail').value.trim();
+    const phoneInput = document.getElementById('formPhone') ? document.getElementById('formPhone').value.trim() : '';
+    const projectType = document.getElementById('formProjectType').value;
+    const message = document.getElementById('formMessage').value.trim();
+
     submitBtn.disabled = true;
     submitBtn.innerHTML = `
       <svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
-      <span>Enviando mensaje a Mario &amp; NED System...</span>
+      <span>Procesando mensaje...</span>
     `;
 
     try {
@@ -571,26 +577,43 @@ function initContactForm() {
           form.reset();
           if (statusMsg) statusMsg.style.display = 'none';
         }, 5000);
-      } else if (data.message && data.message.toLowerCase().includes("activation")) {
-        // Si FormSubmit aún requiere activación directa desde el navegador, enviar de forma estándar
-        form.submit();
       } else {
-        throw new Error(data.message || 'Error al enviar formulario');
+        // Si el servicio externo no está activado, activar el envío garantizado por cliente de correo nativo
+        const mailSubject = `Nuevo Proyecto: ${projectType} - ${name}`;
+        const mailBody = `Hola Mario y equipo NED System,\n\nMi nombre es: ${name}\nCorreo de contacto: ${email}${phoneInput ? `\nTeléfono / WhatsApp: ${phoneInput}` : ''}\nTipo de Proyecto: ${projectType}\n\nDetalles del requerimiento:\n${message}\n\n---\nEnviado desde Portafolio Web Mario Martínez & NED System`;
+
+        const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+        window.location.href = mailtoLink;
+
+        submitBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>¡Abriendo tu cliente de correo!</span>
+        `;
+
+        if (statusMsg) {
+          statusMsg.style.display = 'block';
+          statusMsg.style.background = '#eff6ff';
+          statusMsg.style.color = '#1d4ed8';
+          statusMsg.style.border = '1px solid rgba(29, 78, 216, 0.2)';
+          statusMsg.textContent = 'Se ha generado tu correo con destino a mmartinez@ned.mobi. ¡Solo confirma el envío en tu aplicación de correo!';
+        }
+
+        setTimeout(() => {
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+          form.reset();
+          if (statusMsg) statusMsg.style.display = 'none';
+        }, 5000);
       }
     } catch (err) {
-      // Si ocurre algún bloqueo de red, redirigir a WhatsApp como fallback garantizado
-      const name = document.getElementById('formName').value;
-      const email = document.getElementById('formEmail').value;
-      const phoneInput = document.getElementById('formPhone') ? document.getElementById('formPhone').value : '';
-      const projectType = document.getElementById('formProjectType').value;
-      const message = document.getElementById('formMessage').value;
-
-      const waText = `Hola Mario y equipo NED System! 👋 Mi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nMe gustaría cotizar un desarrollo de tipo *${projectType}*:\n\n"${message}"`;
-      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
+      // Fallback a cliente de correo nativo
+      const mailSubject = `Nuevo Proyecto: ${projectType} - ${name}`;
+      const mailBody = `Hola Mario y equipo NED System,\n\nMi nombre es: ${name}\nCorreo: ${email}${phoneInput ? `\nTeléfono: ${phoneInput}` : ''}\nTipo de Proyecto: ${projectType}\n\nDetalles:\n${message}`;
+      window.location.href = `mailto:${recipientEmail}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 
       submitBtn.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        <span>Redirigiendo a WhatsApp...</span>
+        <span>Abriendo Correo...</span>
       `;
       setTimeout(() => {
         submitBtn.innerHTML = originalText;
@@ -602,13 +625,13 @@ function initContactForm() {
   // Botón directo para enviar por WhatsApp
   if (btnSendWhatsapp) {
     btnSendWhatsapp.addEventListener('click', () => {
-      const name = document.getElementById('formName').value || 'Un cliente potencial';
-      const email = document.getElementById('formEmail').value || 'No especificado';
-      const phoneInput = document.getElementById('formPhone') ? document.getElementById('formPhone').value : '';
+      const name = document.getElementById('formName').value.trim() || 'Un cliente potencial';
+      const email = document.getElementById('formEmail').value.trim() || 'No especificado';
+      const phoneInput = document.getElementById('formPhone') ? document.getElementById('formPhone').value.trim() : '';
       const projectType = document.getElementById('formProjectType').value;
-      const message = document.getElementById('formMessage').value || 'Hola Mario y equipo NED System, me gustaría consultar sobre el desarrollo de un proyecto.';
+      const message = document.getElementById('formMessage').value.trim() || 'Hola Mario y equipo NED System, me gustaría consultar sobre el desarrollo de un proyecto.';
 
-      const waText = `Hola Mario y equipo NED System! 👋 Mi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nMe interesa cotizar un proyecto de tipo *${projectType}*:\n\n"${message}"`;
+      const waText = `Hola Mario y equipo NED System! 👋\n\nMi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nMe gustaría cotizar un desarrollo de tipo *${projectType}*:\n\n"${message}"`;
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
     });
   }
