@@ -471,42 +471,102 @@ function initEstimatorCalculator() {
 }
 
 /* ==========================================================================
-   8. Formulario de Contacto Directo
+   8. Formulario de Contacto Directo (Email a mariomartineza@me.com & WhatsApp)
    ========================================================================== */
 function initContactForm() {
   const form = document.getElementById('contactForm');
+  const btnSendWhatsapp = document.getElementById('btnSendWhatsappDirect');
+  const statusMsg = document.getElementById('formStatusMsg');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  const phone = "573011631422";
+  const recipientEmail = "mariomartineza@me.com";
+
+  // Envío por Correo Electrónico (AJAX directo a FormSubmit / mariomartineza@me.com)
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('formName').value;
-    const email = document.getElementById('formEmail').value;
-    const projectType = document.getElementById('formProjectType').value;
-    const message = document.getElementById('formMessage').value;
-
-    const phone = "573024647165";
-    const waText = `Hola Mario! Mi nombre es *${name}* (${email}).\nMe gustaría consultar contigo sobre un desarrollo de tipo *${projectType}*:\n\n"${message}"`;
-
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
-    
-    // Feedback visual
-    const submitBtn = form.querySelector('button[type="submit"]');
+    const submitBtn = document.getElementById('btnSubmitForm') || form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-      <span>¡Mensaje Enviado con Éxito!</span>
-    `;
-    submitBtn.classList.remove('btn-primary');
-    submitBtn.classList.add('btn-emerald');
 
-    setTimeout(() => {
-      submitBtn.innerHTML = originalText;
-      submitBtn.classList.add('btn-primary');
-      submitBtn.classList.remove('btn-emerald');
-      form.reset();
-    }, 4000);
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+      <span>Enviando mensaje a Mario...</span>
+    `;
+
+    try {
+      const formData = new FormData(form);
+      const response = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        submitBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>¡Mensaje Enviado con Éxito a Mario!</span>
+        `;
+        submitBtn.classList.remove('btn-primary');
+        submitBtn.classList.add('btn-emerald');
+
+        if (statusMsg) {
+          statusMsg.style.display = 'block';
+          statusMsg.style.background = '#ecfdf5';
+          statusMsg.style.color = '#059669';
+          statusMsg.style.border = '1px solid rgba(5, 150, 105, 0.2)';
+          statusMsg.textContent = '¡Gracias por contactarme! He recibido tu mensaje en mi correo y te responderé en breve.';
+        }
+
+        setTimeout(() => {
+          submitBtn.innerHTML = originalText;
+          submitBtn.classList.add('btn-primary');
+          submitBtn.classList.remove('btn-emerald');
+          submitBtn.disabled = false;
+          form.reset();
+          if (statusMsg) statusMsg.style.display = 'none';
+        }, 5000);
+      } else {
+        throw new Error('Error al enviar formulario');
+      }
+    } catch (err) {
+      // Si ocurre algún bloqueo de red, redirigir a WhatsApp como fallback garantizado
+      const name = document.getElementById('formName').value;
+      const email = document.getElementById('formEmail').value;
+      const phoneInput = document.getElementById('formPhone') ? document.getElementById('formPhone').value : '';
+      const projectType = document.getElementById('formProjectType').value;
+      const message = document.getElementById('formMessage').value;
+
+      const waText = `Hola Mario! 👋 Mi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nProyecto de tipo *${projectType}*:\n\n"${message}"`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
+
+      submitBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>Redirigiendo a WhatsApp...</span>
+      `;
+      setTimeout(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }, 4000);
+    }
   });
+
+  // Botón directo para enviar por WhatsApp
+  if (btnSendWhatsapp) {
+    btnSendWhatsapp.addEventListener('click', () => {
+      const name = document.getElementById('formName').value || 'Un cliente potencial';
+      const email = document.getElementById('formEmail').value || 'No especificado';
+      const phoneInput = document.getElementById('formPhone') ? document.getElementById('formPhone').value : '';
+      const projectType = document.getElementById('formProjectType').value;
+      const message = document.getElementById('formMessage').value || 'Hola Mario, me gustaría consultar contigo sobre el desarrollo de un proyecto.';
+
+      const waText = `Hola Mario! 👋 Mi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nMe interesa cotizar un proyecto de tipo *${projectType}*:\n\n"${message}"`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
+    });
+  }
 }
 
 /* ==========================================================================
