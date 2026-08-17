@@ -1042,10 +1042,37 @@ button {
   border-radius: var(--radius-xl);
   overflow: hidden;
   box-shadow: var(--shadow-md);
-  transition: var(--transition-normal);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, opacity 0.3s ease;
   display: flex;
   flex-direction: column;
   position: relative;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.project-card.is-hidden {
+  display: none !important;
+}
+
+.project-card.is-animating-out {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+.project-card.is-animating-in {
+  animation: projectFadeIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes projectFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .project-card:hover {

@@ -171,33 +171,46 @@ function initScrollReveal() {
 }
 
 /* ==========================================================================
-   5. Filtro de Proyectos
+   5. Filtro de Proyectos con Transiciones Fluidas
    ========================================================================== */
 function initProjectFilters() {
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
+
+  if (!filterBtns.length || !projectCards.length) return;
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const filter = btn.getAttribute('data-filter');
+      const filter = btn.getAttribute('data-filter') || 'all';
 
-      projectCards.forEach(card => {
-        const category = card.getAttribute('data-category');
-        if (filter === 'all' || category.includes(filter)) {
-          card.style.display = 'flex';
+      let matchCount = 0;
+      projectCards.forEach((card) => {
+        const categoryStr = card.getAttribute('data-category') || '';
+        const categories = categoryStr.split(/\s+/).filter(Boolean);
+        const isMatch = filter === 'all' || categories.includes(filter);
+
+        if (isMatch) {
+          card.style.display = '';
+          card.classList.remove('is-hidden');
+          
+          const delay = matchCount * 60;
+          matchCount++;
+
           setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
-          }, 50);
+            card.classList.remove('is-animating-out');
+            card.classList.add('is-animating-in');
+          }, delay);
         } else {
-          card.style.opacity = '0';
-          card.style.transform = 'scale(0.95)';
+          card.classList.remove('is-animating-in');
+          card.classList.add('is-animating-out');
           setTimeout(() => {
-            card.style.display = 'none';
-          }, 250);
+            if (card.classList.contains('is-animating-out')) {
+              card.classList.add('is-hidden');
+            }
+          }, 280);
         }
       });
     });
