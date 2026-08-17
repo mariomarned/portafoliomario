@@ -472,7 +472,7 @@ function initEstimatorCalculator() {
 }
 
 /* ==========================================================================
-   8. Formulario de Contacto Directo (Email a mariomartineza@me.com & WhatsApp)
+   8. Formulario de Contacto Directo (Email a mmartinez@ned.mobi & WhatsApp)
    ========================================================================== */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -481,9 +481,9 @@ function initContactForm() {
   if (!form) return;
 
   const phone = "573011631422";
-  const recipientEmail = "mariomartineza@me.com";
+  const recipientEmail = "mmartinez@ned.mobi";
 
-  // Envío por Correo Electrónico (AJAX directo a FormSubmit / mariomartineza@me.com)
+  // Envío por Correo Electrónico (AJAX directo a FormSubmit / mmartinez@ned.mobi)
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 

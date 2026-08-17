@@ -60,6 +60,6 @@ Abre en tu navegador: `http://localhost:8080` (o el puerto indicado).
 
 ## 📬 Contacto Directo
 
-- **Correo Electrónico**: [Enviar un Correo](mailto:mariomartineza@me.com)
+- **Correo Electrónico**: [Enviar un Correo](mailto:mmartinez@ned.mobi)
 - **WhatsApp**: [Chat Directo por WhatsApp](https://wa.me/573011631422)
 - **GitHub**: [github.com/mariomarned](https://github.com/mariomarned)
