@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initScrollReveal();
   initProjectFilters();
+  initCertificationsAccordion();
   initProjectModals();
   initContactForm();
   initCurrentYear();
@@ -383,6 +384,46 @@ function initProjectFilters() {
 }
 
 /* ==========================================================================
+   5b. Acordeón Desplegable de Certificaciones & Trayectoria del Director
+   ========================================================================== */
+function initCertificationsAccordion() {
+  const wrapper = document.getElementById('certAccordion');
+  const trigger = document.getElementById('certAccordionTrigger');
+  const closeBtn = document.getElementById('certAccordionClose');
+
+  if (!wrapper || !trigger) return;
+
+  const ctaText = trigger.querySelector('.cert-trigger-cta-text');
+
+  function toggleAccordion(openState) {
+    const shouldOpen = typeof openState === 'boolean' 
+      ? openState 
+      : !wrapper.classList.contains('is-open');
+
+    if (shouldOpen) {
+      wrapper.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+      if (ctaText) ctaText.textContent = 'Ocultar credenciales';
+    } else {
+      wrapper.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      if (ctaText) ctaText.textContent = 'Desplegar credenciales';
+    }
+  }
+
+  trigger.addEventListener('click', () => {
+    toggleAccordion();
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      toggleAccordion(false);
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  }
+}
+
+/* ==========================================================================
    6. Base de Datos & Modales de Proyectos
    ========================================================================== */
 const projectsData = {
@@ -390,10 +431,10 @@ const projectsData = {
     title: "NED System & NED Leal",
     subtitle: "Red Social Tipo Marketplace & Ecosistema de Fidelización",
     image: "assets/proyectos/appned.png",
-    category: "Móvil (Android & iOS) · Web Full Stack · Desarrollado por Mario & NED System",
-    description: "Plataforma integral de lealtad y marketplace comercial desarrollada y operada por Mario Martínez y el equipo de NED System. Conecta a miles de consumidores con comercios aliados permitiendo acumular puntos, canjear recompensas, acceder a descuentos y participar en sorteos automáticos.",
+    category: "Móvil (Android & iOS) · Web Full Stack · Desarrollado por NED System",
+    description: "Plataforma integral de lealtad y marketplace comercial desarrollada y operada por NED System. Conecta a miles de consumidores con comercios aliados permitiendo acumular puntos, canjear recompensas, acceder a descuentos y participar en sorteos automáticos.",
     architecture: [
-      "Desarrollado y publicado por Mario Martínez & equipo NED System en Google Play Store y Apple App Store.",
+      "Desarrollado y publicado por NED System en Google Play Store y Apple App Store.",
       "Backend transaccional de alta concurrencia con arquitectura de microservicios y REST APIs.",
       "Base de datos relacional optimizada para auditoría de transacciones de puntos y lealtad.",
       "Sistema de notificaciones push en tiempo real y geolocalización de comercios aliados.",
@@ -410,8 +451,8 @@ const projectsData = {
     title: "ADMIRIS S.A.S.",
     subtitle: "Plataforma Institucional & Soluciones en Gestión de Riesgos",
     image: "assets/proyectos/admiris.png",
-    category: "Desarrollo Web Full Stack · Diseño UI/UX · Desarrollado por Mario & NED System",
-    description: "Portal digital corporativo desarrollado por Mario Martínez y el equipo de NED System para la firma de consultoría en sistemas de protección contra incendios (bajo normas NFPA y FM Global), auditorías técnicas y gestión integral de riesgos industriales.",
+    category: "Desarrollo Web Full Stack · Diseño UI/UX · Desarrollado por NED System",
+    description: "Portal digital corporativo desarrollado por el equipo de NED System para la firma de consultoría en sistemas de protección contra incendios (bajo normas NFPA y FM Global), auditorías técnicas y gestión integral de riesgos industriales.",
     architecture: [
       "Arquitectura Frontend moderna, responsiva y orientada a la conversión corporativa.",
       "Diseño UI/UX sobrio y corporativo que transmite solidez y autoridad técnica.",
@@ -427,8 +468,8 @@ const projectsData = {
     title: "WebAdmirisk",
     subtitle: "Software Empresarial de Gestión de Riesgos (ISO 31000)",
     image: "assets/proyectos/admirisk.png",
-    category: "Software Empresarial / Cloud · Dashboards · Desarrollado por Mario & NED System",
-    description: "Software corporativo desarrollado a medida por Mario Martínez y el equipo de NED System para la valoración técnica de riesgos industriales (Risk Assessment), cálculo de estudios PML/EML y auditorías en tiempo real con parametrización total.",
+    category: "Software Empresarial / Cloud · Dashboards · Desarrollado por NED System",
+    description: "Software corporativo desarrollado a medida por NED System para la valoración técnica de riesgos industriales (Risk Assessment), cálculo de estudios PML/EML y auditorías en tiempo real con parametrización total.",
     architecture: [
       "Entorno web/escritorio seguro con control de acceso basado en roles (RBAC) y cifrado de datos.",
       "Motor analítico para generación de matrices de riesgo dinámicas según estándares internacionales.",
@@ -444,8 +485,8 @@ const projectsData = {
     title: "PERLAD",
     subtitle: "Aplicación Web Moderna — Innovación Sostenible en Cartón Panal",
     image: "assets/proyectos/perlad.png",
-    category: "Desarrollo Web Next.js · UI/UX · Desarrollado por Mario & NED System",
-    description: "Aplicación web de alto rendimiento desarrollada en Next.js por Mario Martínez y el equipo de NED System para la presentación interactiva y cotización de empaques ecológicos y estructuras sustentables de cartón panal.",
+    category: "Desarrollo Web Next.js · UI/UX · Desarrollado por NED System",
+    description: "Aplicación web de alto rendimiento desarrollada en Next.js por NED System para la presentación interactiva y cotización de empaques ecológicos y estructuras sustentables de cartón panal.",
     architecture: [
       "Construido sobre Next.js con Server-Side Rendering (SSR) y optimización de imágenes Next Image.",
       "Diseño UI/UX con estética hexagonal representativa de la marca y micro-animaciones fluidas.",
@@ -654,7 +695,7 @@ function initEstimatorCalculator() {
     // Generar enlace personalizado de WhatsApp
     const phone = "573011631422";
     const featuresText = selectedFeatures.length > 0 ? `\n• Funcionalidades clave: ${selectedFeatures.join(', ')}` : '';
-    const message = `Hola Mario! 👋 Estuve revisando tu portafolio y coticé un proyecto con el siguiente alcance:\n\n• Tipo: ${selectedPlatform}${featuresText}\n• Estimado estimado: $${basePriceMin.toLocaleString()} - $${basePriceMax.toLocaleString()} USD (${baseWeeksMin}-${baseWeeksMax} semanas).\n\n¿Podemos conversar para revisar los detalles técnicos y fecha de inicio?`;
+    const message = `Hola equipo NED System! 👋 Estuve revisando sus soluciones de software y coticé un proyecto con el siguiente alcance:\n\n• Tipo: ${selectedPlatform}${featuresText}\n• Estimado: $${basePriceMin.toLocaleString()} - $${basePriceMax.toLocaleString()} USD (${baseWeeksMin}-${baseWeeksMax} semanas).\n\n¿Podemos conversar para revisar los detalles técnicos y fecha de inicio?`;
 
     whatsappCta.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   }
@@ -731,7 +772,7 @@ function initContactForm() {
           statusMsg.style.background = '#ecfdf5';
           statusMsg.style.color = '#059669';
           statusMsg.style.border = '1px solid rgba(5, 150, 105, 0.2)';
-          statusMsg.textContent = '¡Gracias por contactarnos! Mario y el equipo de NED System hemos recibido tu mensaje y te responderemos en breve.';
+          statusMsg.textContent = '¡Gracias por contactarnos! El equipo de NED System responderá a tu solicitud en breve.';
         }
 
         setTimeout(() => {
@@ -745,7 +786,7 @@ function initContactForm() {
       } else {
         // Si el servicio externo no está activado, activar el envío garantizado por cliente de correo nativo
         const mailSubject = `Nuevo Proyecto: ${projectType} - ${name}`;
-        const mailBody = `Hola Mario y equipo NED System,\n\nMi nombre es: ${name}\nCorreo de contacto: ${email}${phoneInput ? `\nTeléfono / WhatsApp: ${phoneInput}` : ''}\nTipo de Proyecto: ${projectType}\n\nDetalles del requerimiento:\n${message}\n\n---\nEnviado desde Portafolio Web Mario Martínez & NED System`;
+        const mailBody = `Hola equipo NED System,\n\nMi nombre es: ${name}\nCorreo de contacto: ${email}${phoneInput ? `\nTeléfono / WhatsApp: ${phoneInput}` : ''}\nTipo de Proyecto: ${projectType}\n\nDetalles del requerimiento:\n${message}\n\n---\nEnviado desde el portal de soluciones NED System`;
 
         const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
         window.location.href = mailtoLink;
@@ -773,7 +814,7 @@ function initContactForm() {
     } catch (err) {
       // Fallback a cliente de correo nativo
       const mailSubject = `Nuevo Proyecto: ${projectType} - ${name}`;
-      const mailBody = `Hola Mario y equipo NED System,\n\nMi nombre es: ${name}\nCorreo: ${email}${phoneInput ? `\nTeléfono: ${phoneInput}` : ''}\nTipo de Proyecto: ${projectType}\n\nDetalles:\n${message}`;
+      const mailBody = `Hola equipo NED System,\n\nMi nombre es: ${name}\nCorreo: ${email}${phoneInput ? `\nTeléfono: ${phoneInput}` : ''}\nTipo de Proyecto: ${projectType}\n\nDetalles:\n${message}`;
       window.location.href = `mailto:${recipientEmail}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 
       submitBtn.innerHTML = `
@@ -794,9 +835,9 @@ function initContactForm() {
       const email = document.getElementById('formEmail').value.trim() || 'No especificado';
       const phoneInput = document.getElementById('formPhone') ? document.getElementById('formPhone').value.trim() : '';
       const projectType = document.getElementById('formProjectType').value;
-      const message = document.getElementById('formMessage').value.trim() || 'Hola Mario y equipo NED System, me gustaría consultar sobre el desarrollo de un proyecto.';
+      const message = document.getElementById('formMessage').value.trim() || 'Hola equipo NED System, me gustaría cotizar un desarrollo de software.';
 
-      const waText = `Hola Mario y equipo NED System! 👋\n\nMi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nMe gustaría cotizar un desarrollo de tipo *${projectType}*:\n\n"${message}"`;
+      const waText = `Hola equipo NED System! 👋\n\nMi nombre es *${name}* (${email}${phoneInput ? ` - Tel: ${phoneInput}` : ''}).\nMe gustaría cotizar un proyecto de tipo *${projectType}* con NED System:\n\n"${message}"`;
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(waText)}`, '_blank');
     });
   }
