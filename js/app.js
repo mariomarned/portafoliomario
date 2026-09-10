@@ -340,28 +340,26 @@ function initScrollReveal() {
    5. Filtro de Proyectos con Transiciones Fluidas
    ========================================================================== */
 function initProjectFilters() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
+  const categoryCards = document.querySelectorAll('.category-card, .filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
 
-  if (!filterBtns.length || !projectCards.length) return;
+  if (!categoryCards.length || !projectCards.length) return;
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  function applyFilter(filter, isInitial = false) {
+    let matchCount = 0;
+    projectCards.forEach((card) => {
+      const categoryStr = card.getAttribute('data-category') || '';
+      const categories = categoryStr.split(/\s+/).filter(Boolean);
+      const isMatch = filter === 'all' || categories.includes(filter);
 
-      const filter = btn.getAttribute('data-filter') || 'all';
-
-      let matchCount = 0;
-      projectCards.forEach((card) => {
-        const categoryStr = card.getAttribute('data-category') || '';
-        const categories = categoryStr.split(/\s+/).filter(Boolean);
-        const isMatch = filter === 'all' || categories.includes(filter);
-
-        if (isMatch) {
-          card.style.display = '';
-          card.classList.remove('is-hidden');
-          
+      if (isMatch) {
+        card.style.display = '';
+        card.classList.remove('is-hidden');
+        card.classList.remove('is-animating-out');
+        
+        if (isInitial) {
+          card.classList.add('is-animating-in');
+        } else {
           const delay = matchCount * 60;
           matchCount++;
 
@@ -369,8 +367,12 @@ function initProjectFilters() {
             card.classList.remove('is-animating-out');
             card.classList.add('is-animating-in');
           }, delay);
+        }
+      } else {
+        card.classList.remove('is-animating-in');
+        if (isInitial) {
+          card.classList.add('is-hidden');
         } else {
-          card.classList.remove('is-animating-in');
           card.classList.add('is-animating-out');
           setTimeout(() => {
             if (card.classList.contains('is-animating-out')) {
@@ -378,9 +380,28 @@ function initProjectFilters() {
             }
           }, 280);
         }
+      }
+    });
+  }
+
+  categoryCards.forEach(cardBtn => {
+    cardBtn.addEventListener('click', () => {
+      categoryCards.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
       });
+      cardBtn.classList.add('active');
+      cardBtn.setAttribute('aria-selected', 'true');
+
+      const filter = cardBtn.getAttribute('data-filter') || 'mobile';
+      applyFilter(filter, false);
     });
   });
+
+  // Filtrado inicial: Ejecutar según la tarjeta activa predeterminada (Móvil)
+  const initialActive = document.querySelector('.category-card.active, .filter-btn.active');
+  const initialFilter = initialActive ? initialActive.getAttribute('data-filter') : 'mobile';
+  applyFilter(initialFilter, true);
 }
 
 /* ==========================================================================
@@ -447,6 +468,23 @@ const projectsData = {
       web: "https://ned.mobi"
     }
   },
+  nedweb: {
+    title: "NED",
+    subtitle: "Plataforma Web de Fidelización y Marketplace Comercial",
+    image: "assets/proyectos/ned.png",
+    category: "Desarrollo Web Full Stack · Marketplace · Desarrollado por NED System",
+    description: "NED es una plataforma que conecta comercios con clientes mediante acumulación de puntos, descuentos, sorteos y otras herramientas enfocadas en hacer que emerja lealtad.",
+    architecture: [
+      "Plataforma web tipo marketplace para comercios afiliados y consumidores.",
+      "Sistema transaccional para acumulación y canje de puntos con validación en tiempo real.",
+      "Herramientas para creación y publicación de promociones, flyers y campañas de lealtad.",
+      "Arquitectura web moderna con renderizado optimizado e integración al ecosistema móvil de NED."
+    ],
+    stack: ["Plataforma Web", "REST APIs", "Node.js Backend", "PostgreSQL", "Fidelización & Marketplace"],
+    links: {
+      web: "https://ned.mobi"
+    }
+  },
   admiris: {
     title: "ADMIRIS S.A.S.",
     subtitle: "Plataforma Institucional & Soluciones en Gestión de Riesgos",
@@ -465,11 +503,11 @@ const projectsData = {
     }
   },
   admirisk: {
-    title: "WebAdmirisk",
+    title: "ADMIRISK",
     subtitle: "Software Empresarial de Gestión de Riesgos (ISO 31000)",
-    image: "assets/proyectos/admirisk.png",
+    image: "assets/proyectos/sadmirisk.png",
     category: "Software Empresarial / Cloud · Dashboards · Desarrollado por NED System",
-    description: "Software corporativo desarrollado a medida por NED System para la valoración técnica de riesgos industriales (Risk Assessment), cálculo de estudios PML/EML y auditorías en tiempo real con parametrización total.",
+    description: "ADMIRISK es una plataforma empresarial integral diseñada para la identificación, evaluación, control y seguimiento estratégico del riesgo corporativo y operacional. Desarrollada con altos estándares de ingeniería de software, combina una experiencia de usuario ágil e interactiva con un motor analítico robusto y una infraestructura respaldada por Amazon Web Services (AWS).\n\nEs una plataforma especializada de gestión integral de riesgos desarrollado por ADMIRIS S.A.S. basado en los mejores estándares internacionales de gestión del riesgo ISO 31000:2018 (Risk Management – Guidelines, FERMA Risk Management Standard (modelo europeo de referencia), AS/NZS ISO 31000:2018 (versión australiana del estándar ISO)).",
     architecture: [
       "Entorno web/escritorio seguro con control de acceso basado en roles (RBAC) y cifrado de datos.",
       "Motor analítico para generación de matrices de riesgo dinámicas según estándares internacionales.",
@@ -478,7 +516,7 @@ const projectsData = {
     ],
     stack: ["JavaScript Avanzado", "RESTful Backend", "Motor de Matrices ISO 31000", "Data Visualization", "SQL Database"],
     links: {
-      web: "https://webadmirisk.admiris.co"
+      web: "https://risk.admiris.co/"
     }
   },
   perlad: {

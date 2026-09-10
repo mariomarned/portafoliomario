@@ -223,27 +223,90 @@
         </p>
       </div>
 
-      <!-- Filter Tabs -->
-      <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">
-          <span>Todos los Proyectos</span>
-          <span class="filter-count">4</span>
+      <!-- Interactive Category Showcase Cards -->
+      <div class="category-cards-grid" role="tablist" aria-label="Categorías de Proyectos">
+        
+        <!-- Category 1: Móvil (Active by Default) -->
+        <button type="button" class="category-card active" data-filter="mobile" role="tab" aria-selected="true">
+          <div class="category-card-glow"></div>
+          <div class="category-card-top">
+            <div class="category-icon-box cat-mobile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+            </div>
+            <div class="category-badge">
+              <span class="category-badge-dot"></span>
+              <span class="category-badge-count">1 Proyecto Insignia</span>
+            </div>
+          </div>
+          <div class="category-card-body">
+            <h3 class="category-card-title">Móvil (iOS &amp; Android)</h3>
+            <p class="category-card-desc">Apps nativas e híbridas de alto rendimiento publicadas en Google Play Store y Apple App Store.</p>
+          </div>
+          <div class="category-card-footer">
+            <span class="category-action-text">
+              <span class="cat-active-label">Mostrando proyectos</span>
+              <span class="cat-inactive-label">Explorar proyectos</span>
+            </span>
+            <div class="category-action-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
         </button>
-        <button class="filter-btn" data-filter="mobile">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
-          <span>📱 Móvil (iOS &amp; Android)</span>
-          <span class="filter-count">1</span>
+
+        <!-- Category 2: Web Full Stack -->
+        <button type="button" class="category-card" data-filter="web" role="tab" aria-selected="false">
+          <div class="category-card-glow"></div>
+          <div class="category-card-top">
+            <div class="category-icon-box cat-web">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </div>
+            <div class="category-badge">
+              <span class="category-badge-dot"></span>
+              <span class="category-badge-count">3 Proyectos</span>
+            </div>
+          </div>
+          <div class="category-card-body">
+            <h3 class="category-card-title">Web Full Stack</h3>
+            <p class="category-card-desc">Plataformas SaaS, arquitecturas Next.js/React, portales corporativos y tiendas de alta velocidad.</p>
+          </div>
+          <div class="category-card-footer">
+            <span class="category-action-text">
+              <span class="cat-active-label">Mostrando proyectos</span>
+              <span class="cat-inactive-label">Explorar proyectos</span>
+            </span>
+            <div class="category-action-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
         </button>
-        <button class="filter-btn" data-filter="web">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-          <span>🌐 Web Full Stack</span>
-          <span class="filter-count">3</span>
+
+        <!-- Category 3: Software Empresarial -->
+        <button type="button" class="category-card" data-filter="enterprise" role="tab" aria-selected="false">
+          <div class="category-card-glow"></div>
+          <div class="category-card-top">
+            <div class="category-icon-box cat-enterprise">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <div class="category-badge">
+              <span class="category-badge-dot"></span>
+              <span class="category-badge-count">1 Proyecto Insignia</span>
+            </div>
+          </div>
+          <div class="category-card-body">
+            <h3 class="category-card-title">Software Empresarial</h3>
+            <p class="category-card-desc">Sistemas de gestión corporativa, parametrización de riesgos (ISO 31000) y dashboards analíticos.</p>
+          </div>
+          <div class="category-card-footer">
+            <span class="category-action-text">
+              <span class="cat-active-label">Mostrando proyectos</span>
+              <span class="cat-inactive-label">Explorar proyectos</span>
+            </span>
+            <div class="category-action-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
         </button>
-        <button class="filter-btn" data-filter="enterprise">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-          <span>🏢 Software Empresarial</span>
-          <span class="filter-count">2</span>
-        </button>
+
       </div>
 
       <!-- Projects Grid -->
@@ -276,7 +339,7 @@
             <span class="project-role-tag">Desarrollo Móvil &amp; Web · Desarrollado por NED System</span>
             <h3 class="project-title">NED System &amp; NED Leal</h3>
             <p class="project-summary">
-              Ecosistema tecnológico integral desarrollado por <strong>NED System</strong>. Compuesto por una <strong>aplicación móvil para Android e iOS</strong> y plataforma web tipo <strong>marketplace de fidelización</strong> que conecta comercios con clientes mediante acumulación de puntos, descuentos y sorteos.
+              Ecosistema tecnológico integral desarrollado por <strong>NED System</strong>. Compuesto por una <strong>aplicación móvil para Android e iOS</strong> y plataforma web tipo <strong>marketplace de fidelización</strong> que conecta comercios con clientes mediante acumulación de puntos, descuentos , sorteos y otras herramientas enfocadas en hacer que emerja lealtad.
             </p>
 
             <ul class="project-highlights">
@@ -295,7 +358,7 @@
             </ul>
 
             <div class="project-stack-pills">
-              <span class="stack-pill">React Native / Flutter</span>
+              <span class="stack-pill">React Native</span>
               <span class="stack-pill">Node.js</span>
               <span class="stack-pill">PostgreSQL</span>
               <span class="stack-pill">REST APIs</span>
@@ -325,8 +388,8 @@
           </div>
         </div>
 
-        <!-- PROJECT 2: WEB ADMIRISK (DESKTOP & CLOUD ENTERPRISE SOFTWARE) -->
-        <div class="project-card" data-category="web enterprise">
+        <!-- PROJECT 2: ADMIRISK (DESKTOP & CLOUD ENTERPRISE SOFTWARE) -->
+        <div class="project-card" data-category="enterprise">
           <div class="project-preview-wrap theme-admirisk">
             <div class="project-type-badge">
               <span class="badge-live-dot" style="background:#059669;"></span>
@@ -341,19 +404,20 @@
                   <div class="browser-dot" style="background:#ffbd2e;"></div>
                   <div class="browser-dot" style="background:#27c93f;"></div>
                 </div>
-                <div class="browser-address">webadmirisk.admiris.co</div>
+                <div class="browser-address">risk.admiris.co</div>
               </div>
               <div class="browser-screen has-img">
-                <img src="assets/proyectos/admirisk.png" alt="WebAdmirisk Software" class="browser-img">
+                <img src="assets/proyectos/sadmirisk.png" alt="ADMIRISK Software" class="browser-img">
               </div>
             </div>
           </div>
 
           <div class="project-info">
             <span class="project-role-tag">Software Empresarial · Desarrollado por NED System</span>
-            <h3 class="project-title">WebAdmirisk</h3>
+            <h3 class="project-title">ADMIRISK</h3>
             <p class="project-summary">
-              Software corporativo especializado en la <strong>gestión inteligente del riesgo</strong> bajo estándares internacionales (ISO 31000, NFPA y FM Global). Desarrollado por <strong>NED System</strong> con parametrización total, cálculo de matrices dinámicas, valoración PML/EML y auditorías técnicas en tiempo real.
+              <strong>ADMIRISK</strong> es una plataforma empresarial integral diseñada para la identificación, evaluación, control y seguimiento estratégico del riesgo corporativo y operacional. Desarrollada con altos estándares de ingeniería de software, combina una experiencia de usuario ágil e interactiva con un motor analítico robusto y una infraestructura respaldada por <strong>Amazon Web Services (AWS)</strong>.<br><br>
+              Es una plataforma especializada de gestión integral de riesgos desarrollado por <strong>ADMIRIS S.A.S.</strong> basado en los mejores estándares internacionales de gestión del riesgo <strong>ISO 31000:2018</strong> (Risk Management – Guidelines, FERMA Risk Management Standard (modelo europeo de referencia), AS/NZS ISO 31000:2018 (versión australiana del estándar ISO)).
             </p>
 
             <div class="project-stack-pills">
@@ -364,8 +428,8 @@
             </div>
 
             <div class="project-action-buttons">
-              <a href="https://webadmirisk.admiris.co" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
-                <span>Acceder a WebAdmirisk</span>
+              <a href="https://risk.admiris.co/" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+                <span>Acceder a ADMIRISK</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
               </a>
               <button class="btn btn-secondary btn-sm open-project-modal" data-project="admirisk">
@@ -375,8 +439,58 @@
           </div>
         </div>
 
+        <!-- PROJECT: NED WEB (PLATAFORMA WEB & MARKETPLACE DE FIDELIZACIÓN) -->
+        <div class="project-card" data-category="web">
+          <div class="project-preview-wrap theme-ned">
+            <div class="project-type-badge">
+              <span class="badge-live-dot" style="background:#c026d3;"></span>
+              <span>Plataforma Web / Fidelización</span>
+            </div>
+
+            <!-- Browser Mockup -->
+            <div class="device-browser">
+              <div class="browser-bar">
+                <div class="browser-dots">
+                  <div class="browser-dot" style="background:#ff5f56;"></div>
+                  <div class="browser-dot" style="background:#ffbd2e;"></div>
+                  <div class="browser-dot" style="background:#27c93f;"></div>
+                </div>
+                <div class="browser-address">ned.mobi</div>
+              </div>
+              <div class="browser-screen has-img">
+                <img src="assets/proyectos/ned.png" alt="NED Plataforma Web" class="browser-img">
+              </div>
+            </div>
+          </div>
+
+          <div class="project-info">
+            <span class="project-role-tag">Plataforma Web &amp; Fidelización · Desarrollado por NED System</span>
+            <h3 class="project-title">NED</h3>
+            <p class="project-summary">
+              <strong>NED</strong> es una plataforma que conecta comercios con clientes mediante acumulación de puntos, descuentos, sorteos y otras herramientas enfocadas en hacer que emerja lealtad.
+            </p>
+
+            <div class="project-stack-pills">
+              <span class="stack-pill">Plataforma Web</span>
+              <span class="stack-pill">Marketplace</span>
+              <span class="stack-pill">Sistema de Puntos</span>
+              <span class="stack-pill">Fidelización B2B/B2C</span>
+            </div>
+
+            <div class="project-action-buttons">
+              <a href="https://ned.mobi" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+                <span>Visitar ned.mobi</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+              <button class="btn btn-secondary btn-sm open-project-modal" data-project="nedweb">
+                <span>Detalles</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- PROJECT 3: ADMIRIS CORPORATE (FULL STACK WEB) -->
-        <div class="project-card" data-category="web enterprise">
+        <div class="project-card" data-category="web">
           <div class="project-preview-wrap theme-admiris">
             <div class="project-type-badge">
               <span class="badge-live-dot" style="background:#0284c7;"></span>
@@ -1110,7 +1224,7 @@
           <ul class="footer-links">
             <li><a href="https://ned.mobi" target="_blank" rel="noopener" class="footer-link">NED System &amp; Leal</a></li>
             <li><a href="https://admiris.co/index.html" target="_blank" rel="noopener" class="footer-link">ADMIRIS</a></li>
-            <li><a href="https://webadmirisk.admiris.co" target="_blank" rel="noopener" class="footer-link">WebAdmirisk</a></li>
+            <li><a href="https://risk.admiris.co/" target="_blank" rel="noopener" class="footer-link">ADMIRISK</a></li>
             <li><a href="https://perlad.vercel.app" target="_blank" rel="noopener" class="footer-link">PERLAD</a></li>
           </ul>
         </div>
