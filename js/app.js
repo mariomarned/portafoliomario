@@ -268,13 +268,20 @@ function initNavbarScroll() {
   const header = document.querySelector('.header-nav');
   if (!header) return;
 
+  let ticking = false;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 30) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 30) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        ticking = false;
+      });
+      ticking = true;
     }
-  });
+  }, { passive: true });
 }
 
 /* ==========================================================================
@@ -312,28 +319,45 @@ function initMobileMenu() {
 }
 
 /* ==========================================================================
-   4. Scroll Reveal Animations (Intersection Observer)
+   4. Scroll Reveal Animations (Intersection Observer Optimizado sin Lag)
    ========================================================================== */
 function initScrollReveal() {
   const reveals = document.querySelectorAll('.reveal');
   if (!reveals.length) return;
 
-  const observer = new IntersectionObserver((entries) => {
+  const triggerElement = (el) => {
+    el.classList.add('active');
+    
+    // Disparar animación de barras de habilidad inmediatamente
+    const skillBars = el.querySelectorAll('.skill-bar-fill');
+    skillBars.forEach(bar => {
+      const targetWidth = bar.getAttribute('data-width') || '85%';
+      bar.style.width = targetWidth;
+    });
+  };
+
+  const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-        
-        // Disparar animación de barras de habilidad
-        const skillBars = entry.target.querySelectorAll('.skill-bar-fill');
-        skillBars.forEach(bar => {
-          const targetWidth = bar.getAttribute('data-width') || '85%';
-          bar.style.width = targetWidth;
-        });
+        triggerElement(entry.target);
+        // Dejar de observar para liberar memoria y evitar recálculos en scroll
+        obs.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { 
+    threshold: 0.02, 
+    rootMargin: '0px 0px 80px 0px' // Margen de anticipación para que aparezca fluidamente antes de que el usuario llegue a él
+  });
 
-  reveals.forEach(el => observer.observe(el));
+  reveals.forEach(el => {
+    // Si ya está visible o cerca en la carga inicial, activar de inmediato sin retraso
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 80 && rect.bottom > 0) {
+      triggerElement(el);
+    } else {
+      observer.observe(el);
+    }
+  });
 }
 
 /* ==========================================================================

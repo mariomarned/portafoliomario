@@ -2588,16 +2588,75 @@ button {
   gap: 16px;
 }
 
-/* --- Scroll Reveal Animations --- */
+/* --- Scroll Reveal Animations (Optimizadas para 0 lag y máxima fluidez) --- */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(18px);
+  transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1), transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Revelado escalonado y fluido del contenido interior de cada sección */
+.reveal .section-header {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.03s, transform 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.03s;
+}
+
+.reveal.active .section-header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal .category-cards-grid,
+.reveal .pillars-grid,
+.reveal .stack-showcase-grid,
+.reveal .methodology-grid,
+.reveal .contact-grid {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.08s;
+}
+
+.reveal.active .category-cards-grid,
+.reveal.active .pillars-grid,
+.reveal.active .stack-showcase-grid,
+.reveal.active .methodology-grid,
+.reveal.active .contact-grid {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal .projects-grid {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.12s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+}
+
+.reveal.active .projects-grid {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Soporte para usuarios con preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal .section-header,
+  .reveal .category-cards-grid,
+  .reveal .pillars-grid,
+  .reveal .stack-showcase-grid,
+  .reveal .methodology-grid,
+  .reveal .contact-grid,
+  .reveal .projects-grid {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* ==========================================================================
