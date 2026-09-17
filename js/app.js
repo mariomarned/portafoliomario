@@ -555,9 +555,9 @@ const projectsData = {
       "Módulo interactivo de exploración de productos (Packingboard, Graphicboard, Papel Panal).",
       "Cotizador dinámico de especificaciones técnicas para clientes industriales."
     ],
-    stack: ["Next.js", "React", "TailwindCSS / CSS Custom", "Vercel Edge Deployment", "Web Performance"],
+    stack: ["Next.js", "React", "TailwindCSS / CSS Custom", "Web Performance"],
     links: {
-      web: "https://perlad.vercel.app"
+      web: "https://perlad.com"
     }
   }
 };
