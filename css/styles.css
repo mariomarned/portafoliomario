@@ -924,15 +924,28 @@ button {
 
 .pillars-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 24px;
+}
+
+/* 3 cards on the top row (each spans 2 of 6 columns) */
+.pillars-grid .pillar-card:nth-child(1),
+.pillars-grid .pillar-card:nth-child(2),
+.pillars-grid .pillar-card:nth-child(3) {
+  grid-column: span 2;
+}
+
+/* 2 cards on the bottom row (each spans 3 of 6 columns, perfectly centered and balanced) */
+.pillars-grid .pillar-card:nth-child(4),
+.pillars-grid .pillar-card:nth-child(5) {
+  grid-column: span 3;
 }
 
 .pillar-card {
   background: #ffffff;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
-  padding: 32px 24px;
+  padding: 32px 26px;
   box-shadow: var(--shadow-sm);
   transition: var(--transition-normal);
   position: relative;
@@ -988,6 +1001,7 @@ button {
 .pillar-icon-front { background: #e0f2fe; color: #0284c7; }
 .pillar-icon-back { background: #f3e8ff; color: #7e22ce; }
 .pillar-icon-mobile { background: #ecfdf5; color: #059669; }
+.pillar-icon-ai { background: #fdf4ff; color: #a21caf; border: 1px solid rgba(217, 70, 239, 0.25); }
 
 .pillar-num {
   position: absolute;
@@ -2710,6 +2724,17 @@ button {
     gap: 20px;
   }
 
+  .pillars-grid .pillar-card:nth-child(1),
+  .pillars-grid .pillar-card:nth-child(2),
+  .pillars-grid .pillar-card:nth-child(3),
+  .pillars-grid .pillar-card:nth-child(4) {
+    grid-column: span 1;
+  }
+
+  .pillars-grid .pillar-card:nth-child(5) {
+    grid-column: span 2;
+  }
+
   .methodology-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
@@ -2945,6 +2970,10 @@ button {
   .pillars-grid {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .pillars-grid .pillar-card:nth-child(n) {
+    grid-column: span 1;
   }
 
   .pillar-card {
