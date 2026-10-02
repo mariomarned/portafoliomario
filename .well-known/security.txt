@@ -1,0 +1,4 @@
+Contact: mailto:mmartinez@ned.mobi
+Preferred-Languages: es, en
+Canonical: https://www.nedsystem.dev/.well-known/security.txt
+Policy: https://www.nedsystem.dev/

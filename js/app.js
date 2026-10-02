@@ -810,18 +810,38 @@ function initContactForm() {
     `;
 
     try {
-      const formData = new FormData(form);
-      const response = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
+      const payload = {
+        nombre: name,
+        email: email,
+        telefono: phoneInput,
+        tipo_proyecto: projectType,
+        mensaje: message
+      };
+
+      let sentSuccessfully = false;
+
+      // 1. Intento principal: Endpoint Serverless local en Vercel (mismo dominio, sin alertas de antivirus)
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          const data = await response.json().catch(() => ({}));
+          if (data && (data.success === true || data.success === 'true')) {
+            sentSuccessfully = true;
+          }
         }
-      });
+      } catch (apiErr) {
+        console.warn('API /api/contact no disponible en este entorno, activando fallback seguro:', apiErr);
+      }
 
-      const data = await response.json().catch(() => ({}));
-
-      if (response.ok && (data.success === "true" || data.success === true)) {
+      if (sentSuccessfully) {
         submitBtn.innerHTML = `
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
           <span>¡Mensaje Enviado con Éxito!</span>
@@ -846,7 +866,7 @@ function initContactForm() {
           if (statusMsg) statusMsg.style.display = 'none';
         }, 5000);
       } else {
-        // Si el servicio externo no está activado, activar el envío garantizado por cliente de correo nativo
+        // Si el endpoint serverless no responde o no está en producción aún, activar cliente de correo nativo
         const mailSubject = `Nuevo Proyecto: ${projectType} - ${name}`;
         const mailBody = `Hola equipo NED System,\n\nMi nombre es: ${name}\nCorreo de contacto: ${email}${phoneInput ? `\nTeléfono / WhatsApp: ${phoneInput}` : ''}\nTipo de Proyecto: ${projectType}\n\nDetalles del requerimiento:\n${message}\n\n---\nEnviado desde el portal de soluciones NED System`;
 
